@@ -51,12 +51,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def _make_tex(
-    pdf_paths_list: list = [
-        '"/home/jr/Dropbox/CV, C. Motiv. cartas de recomendação/wetransfer_doc005-pdf_2022-05-04_0701/DOC001.pdf"',
-        '"/home/jr/Dropbox/CV, C. Motiv. cartas de recomendação/wetransfer_doc005-pdf_2022-05-04_0701/DOC000.pdf"',
-    ]
-) -> str:
+def _make_tex(pdf_paths_list: list) -> str:
     """Make the tex file"""
     to_insert = "\n".join(["\includepdf[pages=-]{" + _ + "}" for _ in pdf_paths_list])
     # insert them in the tex file
@@ -103,9 +98,7 @@ def main() -> None:
     tex_path = make_tex(pdf_paths_list=input_files, tex_dir=tex_dir)
     # make the pdf
     output_file = args.output_path.split("/")[-1]
-    pdf_tmp_dir, pdf_path = make_pdf(
-        tex_path=tex_path, temp_output_dir=tex_dir
-    )
+    pdf_tmp_dir, pdf_path = make_pdf(tex_path=tex_path, temp_output_dir=tex_dir)
     # copy
     shutil.copy(src=pdf_path, dst=args.output_path)
     # delete tempdir
